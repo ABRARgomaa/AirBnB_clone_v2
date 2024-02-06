@@ -28,6 +28,9 @@ class DBStorage:
         if os.getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
 
+        # Create all tables in the database
+        Base.metadata.create_all(self.__engine)
+
     def all(self, cls=None):
         """Query on the current database session"""
         objects = {}
@@ -57,6 +60,5 @@ class DBStorage:
 
     def reload(self):
         """Create all tables in the database"""
-        Base.metadata.create_all(self.__engine)
         Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         self.__session = scoped_session(Session)
